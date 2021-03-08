@@ -67,4 +67,7 @@ export const {
 	setAccountChangeListenerLoaded,
 } = metamaskSlice.actions
 
+export const selectAccount = (state) => state.metamask.account
+export const selectMetamaskLoadingStatus = (state) => state.metamask.loading
+
 export default metamaskSlice.reducer
