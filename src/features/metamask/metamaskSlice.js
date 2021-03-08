@@ -7,6 +7,7 @@ export const loadAccount = createAsyncThunk(
 			const accounts = await window.ethereum.enable()
 			return accounts[0]
 		}
+		//TODO: if metamask not present alert
 	}
 )
 

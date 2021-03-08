@@ -9,6 +9,7 @@ import {
 export default function NavBar() {
 	const connectedAccount = useSelector(selectAccount)
 	const loading = useSelector(selectMetamaskLoadingStatus)
+	//TODO: use the loading
 	return (
 		<Navbar bg="primary" variant="dark">
 			<Navbar.Brand href="#home">Dapp</Navbar.Brand>
