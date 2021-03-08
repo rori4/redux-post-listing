@@ -1,9 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import { Counter } from "./features/counter/Counter";
+import "./App.css";
+import { useDispatch } from "react-redux";
+import { loadAccount } from "./features/metamask/metamaskSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadAccount());
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
