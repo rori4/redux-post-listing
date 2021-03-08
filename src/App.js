@@ -21,7 +21,9 @@ function App() {
 		<div>
 			<NavBar />
 			<Container className="mt-4">
-				<PostList />
+				<Row className="justify-content-md-center">
+					<PostList />
+				</Row>
 			</Container>
 		</div>
 	)
