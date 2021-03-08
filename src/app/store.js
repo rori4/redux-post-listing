@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import counterReducer from "../features/counter/counterSlice"
 import metamaskReducer from "../features/metamask/metamaskSlice"
+import postsReducer from "../features/posts/postsSlice"
 
 export default configureStore({
 	reducer: {
-		counter: counterReducer,
 		metamask: metamaskReducer,
+		posts: postsReducer,
 	},
 })
