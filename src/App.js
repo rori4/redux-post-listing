@@ -3,12 +3,16 @@ import logo from "./logo.svg";
 import { Counter } from "./features/counter/Counter";
 import "./App.css";
 import { useDispatch } from "react-redux";
-import { loadAccount } from "./features/metamask/metamaskSlice";
+import {
+  loadAccount,
+  setChangeAccountListener,
+} from "./features/metamask/metamaskSlice";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadAccount());
+    dispatch(setChangeAccountListener());
   }, []);
   return (
     <div className="App">
