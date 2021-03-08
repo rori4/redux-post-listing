@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { fetchPosts } from "features/posts/postsSlice"
 
 export const loadAccount = createAsyncThunk(
 	"metamask/loadAccount",
 	async (_, { dispatch, getState }) => {
 		if (window.ethereum) {
-			const accounts = await window.ethereum.enable()
+			const accounts = await window.ethereum.request({
+				method: "eth_requestAccounts",
+			})
+			dispatch(fetchPosts())
 			return accounts[0]
 		}
 		//TODO: if metamask not present alert
@@ -15,13 +19,14 @@ export const setChangeAccountListener = createAsyncThunk(
 	"metamask/setChangeAccountListener",
 	async (_, { dispatch, getState }) => {
 		const state = getState()
-		const { accountChangeListenerLoaded } = state.metamask
+		const alreadyLoaded =
+			state.metamask.listeners[setChangeAccountListener.typePrefix]
 		// call this once and set the event listener
-		if (window.ethereum && !accountChangeListenerLoaded) {
+		if (window.ethereum && !alreadyLoaded) {
 			window.ethereum.on("accountsChanged", function () {
 				dispatch(loadAccount())
 			})
-			dispatch(setAccountChangeListenerLoaded(true))
+			dispatch(setListenerLoaded(setChangeAccountListener.typePrefix))
 		}
 	}
 )
@@ -31,7 +36,7 @@ export const metamaskSlice = createSlice({
 	initialState: {
 		account: null,
 		loading: null,
-		accountChangeListenerLoaded: null,
+		listeners: {},
 	},
 	reducers: {
 		// Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -44,8 +49,8 @@ export const metamaskSlice = createSlice({
 		setLoading: (state, action) => {
 			state.loading = action.payload
 		},
-		setAccountChangeListenerLoaded: (state, action) => {
-			state.accountChangeListenerLoaded = action.payload
+		setListenerLoaded: (state, { payload }) => {
+			state.listeners[payload] = true
 		},
 	},
 	extraReducers: {
@@ -65,7 +70,7 @@ export const metamaskSlice = createSlice({
 export const {
 	setAccount,
 	setLoading,
-	setAccountChangeListenerLoaded,
+	setListenerLoaded,
 } = metamaskSlice.actions
 
 export const selectAccount = (state) => state.metamask.account
