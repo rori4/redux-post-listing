@@ -31,7 +31,7 @@ export const postsSlice = createSlice({
 	},
 })
 
-export const { setPosts, setPostsLoading } = postsSlice.actions
+export const { setPosts } = postsSlice.actions
 
 export const selectPosts = (state) => state.posts.all
 export const selectPostsLoading = (state) => state.posts.loading

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { fetchPosts } from "features/posts/postsSlice"
+import { fetchPosts, setPosts } from "features/posts/postsSlice"
 
 export const loadAccount = createAsyncThunk(
 	"metamask/loadAccount",
@@ -23,7 +23,11 @@ export const setChangeAccountListener = createAsyncThunk(
 			state.metamask.listeners[setChangeAccountListener.typePrefix]
 		// call this once and set the event listener
 		if (window.ethereum && !alreadyLoaded) {
-			window.ethereum.on("accountsChanged", function () {
+			window.ethereum.on("accountsChanged", function (acc) {
+				if (acc.length === 0) {
+					dispatch(setAccount(null))
+					dispatch(setPosts([]))
+				}
 				dispatch(loadAccount())
 			})
 			dispatch(setListenerLoaded(setChangeAccountListener.typePrefix))
