@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { fetchPosts, setPosts } from "features/posts/postsSlice"
+import { fetchUsers } from "features/usersPage/usersSlice"
 
 export const loadAccount = createAsyncThunk(
 	"metamask/loadAccount",
@@ -9,6 +10,7 @@ export const loadAccount = createAsyncThunk(
 				method: "eth_requestAccounts",
 			})
 			dispatch(fetchPosts())
+			dispatch(fetchUsers())
 			return accounts[0]
 		}
 		//TODO: if metamask not present alert
