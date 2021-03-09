@@ -5,6 +5,9 @@ import { fetchUsers } from "features/usersPage/usersSlice"
 export const loadAccount = createAsyncThunk(
 	"metamask/loadAccount",
 	async (_, { dispatch, getState }) => {
+		const state = getState()
+		const { loading } = state.metamask
+		console.log(loading)
 		if (window.ethereum) {
 			const accounts = await window.ethereum.request({
 				method: "eth_requestAccounts",
@@ -12,8 +15,10 @@ export const loadAccount = createAsyncThunk(
 			dispatch(fetchPosts())
 			dispatch(fetchUsers())
 			return accounts[0]
+		} else {
+			window.alert("Please install MetaMask")
+			window.location.assign("https://metamask.io/")
 		}
-		//TODO: if metamask not present alert
 	}
 )
 
@@ -26,6 +31,7 @@ export const setChangeAccountListener = createAsyncThunk(
 		// call this once and set the event listener
 		if (window.ethereum && !alreadyLoaded) {
 			window.ethereum.on("accountsChanged", function (acc) {
+				console.log("acc", acc)
 				if (acc.length === 0) {
 					dispatch(setAccount(null))
 					dispatch(setPosts([]))
