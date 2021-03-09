@@ -5,9 +5,6 @@ import { fetchUsers } from "features/usersPage/usersSlice"
 export const loadAccount = createAsyncThunk(
 	"metamask/loadAccount",
 	async (_, { dispatch, getState }) => {
-		const state = getState()
-		const { loading } = state.metamask
-		console.log(loading)
 		if (window.ethereum) {
 			const accounts = await window.ethereum.request({
 				method: "eth_requestAccounts",
