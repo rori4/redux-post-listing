@@ -12,7 +12,7 @@ export default function PostList() {
 	const fetching = useSelector(selectPostsFetching)
 	return (
 		<>
-			{!fetching ? (
+			{!fetching && posts.length > 0 ? (
 				posts.map((post) => (
 					<Card className="mt-3 mb-3" key={post.id}>
 						<Card.Header>
