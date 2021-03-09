@@ -1,11 +1,13 @@
 import DefaultSpinner from "common/components/Spinner"
 import React from "react"
-import { Card, Button, Badge, Container } from "react-bootstrap"
+import { Card, Button, Badge, Row, Col } from "react-bootstrap"
 import { PersonFill } from "react-bootstrap-icons"
 import { useSelector } from "react-redux"
-import { selectPosts, selectPostsLoading } from "./postsSlice"
+import { selectPosts } from "./postsSlice"
+import { useHistory } from "react-router-dom"
 
 export default function PostList() {
+	const history = useHistory()
 	const posts = useSelector(selectPosts)
 	return (
 		<>
@@ -13,8 +15,12 @@ export default function PostList() {
 				posts.map((post) => (
 					<Card className="mt-3 mb-3" key={post.id}>
 						<Card.Header>
-							<Button variant="primary">
-								Author Page <PersonFill />
+							<Button
+								variant="primary"
+								onClick={() => history.push(`/user/${post.userId}`)}
+							>
+								Author Page <PersonFill />{" "}
+								<Badge variant="light">{post.userId}</Badge>
 							</Button>
 						</Card.Header>
 						<Card.Body>
@@ -24,7 +30,11 @@ export default function PostList() {
 					</Card>
 				))
 			) : (
-				<DefaultSpinner className="full" />
+				<Row className="justify-content-md-center">
+					<Col md="auto">
+						<DefaultSpinner />
+					</Col>
+				</Row>
 			)}
 		</>
 	)
