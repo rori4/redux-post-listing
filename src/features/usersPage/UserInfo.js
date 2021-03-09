@@ -21,7 +21,6 @@ export default function UserInfo(props) {
 									<strong>Name:</strong> {user.name}
 								</ListGroup.Item>
 								<ListGroup.Item>
-									selectUsersFetching
 									<strong>Address:</strong> {user.address.city},{" "}
 									{user.address.street} {user.address.suite},{" "}
 									{user.address.zipcode}
