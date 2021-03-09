@@ -1,15 +1,17 @@
+import DefaultSpinner from "common/components/Spinner"
 import React from "react"
-import { Card, ListGroup, Spinner } from "react-bootstrap"
+import { Card, ListGroup } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { selectUserById } from "./usersSlice"
+import { selectUserById, selectUsersFetching } from "./usersSlice"
 
 export default function UserInfo(props) {
 	const { userId } = useParams()
 	const user = useSelector((state) => selectUserById(state, { id: userId }))
+	const fetching = useSelector(selectUsersFetching)
 	return (
 		<>
-			{user ? (
+			{!fetching && user ? (
 				<Card className="mt-3 mb-3">
 					<Card.Header>User Info</Card.Header>
 					<Card.Body>
@@ -19,12 +21,7 @@ export default function UserInfo(props) {
 									<strong>Name:</strong> {user.name}
 								</ListGroup.Item>
 								<ListGroup.Item>
-									<strong>Email:</strong> {user.email}
-								</ListGroup.Item>
-								<ListGroup.Item>
-									<strong>Username:</strong> {user.username}
-								</ListGroup.Item>
-								<ListGroup.Item>
+									selectUsersFetching
 									<strong>Address:</strong> {user.address.city},{" "}
 									{user.address.street} {user.address.suite},{" "}
 									{user.address.zipcode}
@@ -44,7 +41,7 @@ export default function UserInfo(props) {
 					</Card.Body>
 				</Card>
 			) : (
-				<Spinner />
+				<DefaultSpinner />
 			)}
 		</>
 	)

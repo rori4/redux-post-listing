@@ -12,6 +12,7 @@ export const usersSlice = createSlice({
 	name: "users",
 	initialState: {
 		all: [],
+		fetching: false,
 	},
 	// Redux Toolkit allows us to write "mutating" logic in reducers. It
 	// doesn't actually mutate the state because it uses the Immer library,
@@ -21,19 +22,29 @@ export const usersSlice = createSlice({
 		setUsers: (state, action) => {
 			state.all = action.payload
 		},
+		setFetching: (state, action) => {
+			state.fetching = action.payload
+		},
 	},
 	extraReducers: {
-		[fetchUsers.pending]: (state, actions) => {},
+		[fetchUsers.pending]: (state, actions) => {
+			usersSlice.caseReducers.setFetching(state, { payload: true })
+		},
 		[fetchUsers.fulfilled]: (state, actions) => {
 			usersSlice.caseReducers.setUsers(state, actions)
+			usersSlice.caseReducers.setFetching(state, { payload: false })
 		},
-		[fetchUsers.rejected]: (state, actions) => {},
+		[fetchUsers.rejected]: (state, actions) => {
+			usersSlice.caseReducers.setFetching(state, { payload: false })
+		},
 	},
 })
 
 export const { setUsers } = usersSlice.actions
 
 export const selectUsers = (state) => state.users.all
+
+export const selectUsersFetching = (state) => state.users.fetching
 
 export const selectUserById = createSelector(
 	selectUsers,
