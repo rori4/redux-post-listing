@@ -10,6 +10,8 @@ import {
 } from "./features/metamask/metamaskSlice"
 import NavBar from "common/components/NavBar"
 import PostList from "features/posts/PostList"
+import UserInfo from "features/usersPage/UserInfo"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 
 function App() {
 	const dispatch = useDispatch()
@@ -18,14 +20,17 @@ function App() {
 		dispatch(setChangeAccountListener())
 	}, [])
 	return (
-		<div>
+		<Router>
 			<NavBar />
 			<Container className="mt-4">
-				<Row className="justify-content-md-center">
-					<PostList />
+				<Row>
+					<Col>
+						<Route path="/" component={PostList} exact />
+						<Route path="/user/:userId" component={UserInfo} exact />
+					</Col>
 				</Row>
 			</Container>
-		</div>
+		</Router>
 	)
 }
 
